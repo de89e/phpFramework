@@ -1,0 +1,274 @@
+【变量】
+framework::$cli
+framework::cm()-get("com.route")->controllerId
+framework::cm()-get("com.route")->actionId
+
+【事件列表】
+"event.config.start",
+"event.request.start",
+"event.route.start",
+"event.application.start",
+"event.response.start",
+framework::em()->push("event.route.rules");
+framework::em()->push("event.route.analysisPath");
+framework::em()->push("event.route.dispatch");
+framework::em()->push("event.application.getControllerId");
+framework::em()->push("event.application.getActionId");
+framework::em()->push("event.application.createController");
+framework::em()->push("event.application.runController");
+framework::em()->push('event.response.header');
+framework::em()->push('event.response.output');
+		
+【消息列表】
+framework::mm()->send("message.application.actionId", $this->actionId);
+framework::mm()->send("message.application.controllerId", $this->controllerId);
+framework::mm()->send("message.response.redirect", "http://baidu.com");
+framework::mm()->send("message.response.expires", 3600);
+framework::mm()->send("message.response.noCache", TRUE);
+framework::mm()->send("message.response.compress", 2);
+framework::mm()->send("message.response.content", $content);
+framework::mm()->send("message.response.contentType", ["image/json"]);
+framework::mm()->send("message.response.status", 404);
+framework::mm()->send("message.response.setHeader", "X-PHP-Framework: CongPHP");
+framework::mm()->send("message.session.id", $this->session_id);
+framework::mm()->send("message.session.{$key}", $value);
+framework::mm()->send('message.application.jumpAction','_main_'); _main_ 跳过所有 主action， _after_ 跳过afterAction
+framework::mm()->send('message.framework.ptd',-1); :  -1 不显示 processed_time_display
+【方法】
+
+framework::cm()
+framework::em()
+framework::mm()
+framework::getOption($string = NULL)
+
+
+["para1:value1","para2:value2"]
+Conversion::arrayToObject($array)
+Conversion::paramToObject(($parameters, $comma = FALSE))
+Conversion::paramToArray(($parameters, $comma = FALSE))
+Conversion::ipByClass($ip, $class = "D")
+Conversion::convertString($string, $fromCode = 'gbk', $toCode = 'utf-8')
+
+CFile::requireFile($file = NULL, $_Return = FALSE)
+CFile::fileExits($file)
+CFile::fileInclude($file, $once = TRUE)
+CFile::fileWrite($path, $content)
+CFile::fileGetContent($file)
+CFile::checkFileName($path)
+CFile::checkPathName($path)
+
+CPoint::getCount()
+CPoint::getAllPoints()
+CPoint::getValueSum()
+CPoint::getValueProduct()
+
+framework::cm()->registerComponent([Component=>name,Class=>class,;File=>,;Cover=>,;Alias=>[v1,v2,v3]])
+framework::cm()->cmpExists($cmp="com.config")
+framework::cm()->get($cmp = "com.framework")
+framework::cm()->load($component="com.config", $argv = null)
+
+framework::em()->push($event)
+framework::em()->add($event)
+framework::em()->prev()
+framework::em()->event($event, $parameter = NULL)
+
+
+framework::mm()->get($message)
+framework::mm()->destoryMessage
+framework::mm()->send()
+
+
+framework::cm()-get("com.config")->addMappingFile([file_path])
+framework::cm()-get("com.config")->get($key)
+framework::cm()-get("com.config")->set($key, $value = NULL)
+
+
+framework::cm()-get("com.request")->setTimeZone($time_zone)
+framework::cm()-get("com.request")->getClientIP($IPLevel = 'D')
+framework::cm()-get("com.request")->getHost()
+framework::cm()-get("com.request")->getDocumentRoot()
+framework::cm()-get("com.request")->getProtocol()
+framework::cm()-get("com.request")->getPathInfo()
+framework::cm()-get("com.request")->getReferer()
+framework::cm()-get("com.request")->getQueryString()
+framework::cm()-get("com.request")->getRequestURL()
+framework::cm()-get("com.request")->getServerIP()
+framework::cm()-get("com.request")->getRequestTime()
+framework::cm()-get("com.request")->get($get = "get.null;post.null;cookie.null")
+framework::cm()-get("com.request")->set($set, $value)
+
+framework::cm()->get("com.application")->view->tpl($tpl = "Index")
+framework::cm()->get("com.application")->view->assign($data = NULL, $value = null)
+framework::cm()->get("com.application")->view->setTheme($theme = "Default")
+framework::cm()->get("com.application")->view->setSuffix($suffix)
+framework::cm()->get("com.application")->view->contents()
+保护方法 只在VIEW模板里调用
+[framework::cm()->get("com.application")->view]->render($render)
+[framework::cm()->get("com.application")->view]->layout($layout)
+
+【数据库】
+
+ 
+  ////////////////////////////////////////////////////////////////
+  //															//
+  //                        Congshan.net						//
+  //															//
+  ////////////////////////////////////////////////////////////////
+
+
+  $connStr = new dbConnectionString("Provider=mysql;Source=192.168.1.254;Username=root;Password=a123234;Database=test");
+  $conn = new dbConnection($connStr);
+  $conn->Open();
+  $sqlCommand = new dbSqlCommand($conn);
+  $sqlString = new dbSqlString;
+  ////////////////////////////////////////////////////////////
+  //
+  //执行数据库查询
+  //
+  ////////////////////////////////////////////////////////////
+
+  $sqlString->setSelect("*");
+  $sqlString->setTable("contacts");
+  $sqlCommand->exec($sqlString);
+
+  ////////////////////////////////////////////////////////////
+  //
+  //处理查询数据
+  //
+  ////////////////////////////////////////////////////////////
+  $store = new dbDataStore();
+  $store->createMapping([
+  [
+  "name" => "id",
+  "mapping" => "id"
+  ], [
+  "name" => "contact",
+  "mapping" => "contact"
+  ], [
+  "name" => "cellphone",
+  "mapping" => "cellphone"
+  ], [
+  "name" => "address",
+  "mapping" => "address"
+  ]
+  ]);
+  $store->loadArray($sqlCommand->arrayResult);
+  $store->setProperty("success", true);
+  echo $store->getJSON();
+ * 
+ */
+////////////////////////////////////////////////////////////
+//
+//建立数据库链接
+//
+////////////////////////////////////////////////////////////
+
+【sqlCommand函数】
+
+public function exec($sqlString)
+public function getLastInsertId();
+public function getResultCount();
+public function getLastInsertId();
+public function getResultCount();
+public function getResultAffectedCount();
+public function getResultByArray();
+public function getResultByArrayNum();
+public function getResultByArrayAssoc();
+public function getResultByOneObject();
+public function getResultByOneArray();
+
+【sqlString函数】
+
+public function setSelect($column, $dist = FALSE)
+public function setInsert($column, $value = NULL, $format = "%s")
+public function setUpdate($column, $value = NULL, $format = "%s")
+public function setDelete()
+public function setTable($tableArray = null)
+public function setC($how, $conditionFormat, $value = null)
+public function setCondition($how, $conditionFormat, $value = null)
+
+【加载Model模块】
+
+$this->loadModel('account/user');
+$this->account_user->isLogin();
+$lang = $this->loadLang('zh-cn');
+$lang['lang.framework'];
+
+<?php
+
+class myappIndex extends baseController {
+
+    public $i = 0;
+
+    function actionIndex() {
+
+        $this->view->tpl("Index");
+        $content = $this->view->contents();
+
+        $this->loadModel('account/user');
+
+        $lang = $this->loadLang('zh-cn');
+
+
+        $this->account_user->isLogin();
+
+        $this->account_user->isLogin();
+        $db = framework::cm()->get('com.database');
+        $db->sqlString->setTable("test");
+        $db->sqlString->setSelect("*");
+        $db->sqlCommand->exec($db->sqlString);
+
+        cong::mm()->send("message.response.content", $content);
+    }
+
+    function actionTest2() {
+
+        echo ".";
+        usleep(10000);
+        ob_flush();
+        framework::em()->prev();
+    }
+
+    function actionTest1() {
+
+        if (framework::$cli) {
+            $ip = $_GET['host'];
+            exec("ping $ip -n 1", $info);
+            foreach ($info as $string) {
+                if (strtolower(substr($string, 0, 5)) == 'reply') {
+                    echo $string . " Time:" . date("Y-m-d H:i:s") . "\r\n";
+                }
+                if (strtolower(substr($string, 0, 7)) == 'request') {
+                    echo $string . " Time:" . date("Y-m-d H:i:s") . "\r\n";
+                }
+            }
+            sleep(1);
+            ob_flush();
+            framework::em()->prev();
+        }
+    }
+
+    function actionError() {
+        $this->view->tpl("common/header");
+        echo $content = $this->view->contents();
+        //$this->view->tpl("Index");
+        //return $content = $this->view->contents();
+        //framework::em()->prev();
+    }
+
+    function actionTest() {
+        //var_dump($db->sqlCommand->getResultCount());
+        //var_dump($db->sqlCommand->getResultByArray());
+        //var_dump($db->sqlCommand->getResultByOneObject());
+        //var_dump($db->sqlCommand->getResultByOneArray());
+        //$this->connStr = new framework\system\database\dbConnectionString("Provider=mysql;Source=localhost;Username=root;Password=cuijiahai;Database=test;Charset=utf-8");
+        //$this->conn = new framework\system\database\dbConnection();
+        //$this->conn->Open($this->connStr);
+        $content = file_get_contents(DIR_HTDOCS . DS . "test.jpg");
+        cong::mm()->send("message.response.content", $content);
+        cong::mm()->send("message.response.contentType", ["image/jpg"]);
+        //cong::mm()->send("message.response.expires", 3600);
+        //cong::mm()->send("message.response.redirect", "http://baidu.com");
+    }
+
+}
